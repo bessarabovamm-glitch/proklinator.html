@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ПРОКЛИНАТОР™</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rubik+Wet+Paint&family=Russo+One&family=Golos+Text:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blood:#c1121f;
+    --blood-dark:#5c0009;
+    --void:#0a0306;
+    --bone:#e8dcc8;
+    --gold:#d4a017;
+    --rot:#7a9a2e;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  html,body{
+    min-height:100%;
+    cursor:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34"><text y="27" font-size="27">%F0%9F%94%AA</text></svg>') 4 4, auto;
+  }
+  a,button,select,input,label{
+    cursor:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><text y="31" font-size="31">%F0%9F%94%AA</text></svg>') 5 5, pointer;
+  }
+
+  body{
+    font-family:'Golos Text',sans-serif;
+    color:var(--bone);
+    background:var(--void);
+    overflow-x:hidden;
+    position:relative;
+  }
+
+  /* ======= ДВИЖУЩИЙСЯ ФОН ======= */
+  .bg{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background:
+      radial-gradient(ellipse 90% 60% at 20% 110%, rgba(193,18,31,.55), transparent 60%),
+      radial-gradient(ellipse 70% 50% at 85% -10%, rgba(92,0,9,.8), transparent 65%),
+      radial-gradient(ellipse 60% 70% at 60% 60%, rgba(60,0,40,.5), transparent 70%),
+      var(--void);
+    background-size:200% 200%;
+    animation:hellshift 16s ease-in-out infinite alternate;
+  }
+  @keyframes hellshift{
+    0%{background-position:0% 100%, 100% 0%, 50% 50%}
+    50%{background-position:60% 40%, 30% 80%, 80% 20%}
+    100%{background-position:100% 0%, 0% 100%, 20% 90%}
+  }
+  .bg::after{
+    content:"";
+    position:absolute; inset:-50%;
+    background:
+      radial-gradient(circle 2px at 20% 30%, rgba(255,120,60,.8), transparent 40%),
+      radial-gradient(circle 1.5px at 70% 60%, rgba(255,180,80,.7), transparent 40%),
+      radial-gradient(circle 2px at 45% 80%, rgba(255,90,40,.6), transparent 40%),
+      radial-gradient(circle 1px at 85% 25%, rgba(255,200,120,.8), transparent 40%),
+      radial-gradient(circle 1.5px at 10% 70%, rgba(255,120,60,.7), transparent 40%);
+    background-size:600px 600px;
+    animation:embers 24s linear infinite;
+    opacity:.7;
+  }
+  @keyframes embers{
+    from{transform:translateY(0) rotate(0deg)}
+    to{transform:translateY(-600px) rotate(8deg)}
+  }
+  .floaters{position:fixed; inset:0; z-index:1; pointer-events:none; overflow:hidden}
+  .floater{
+    position:absolute; bottom:-12vh;
+    font-size:34px; opacity:.18;
+    animation:rise linear infinite;
+    filter:blur(.5px);
+  }
+  @keyframes rise{
+    from{transform:translateY(0) rotate(-10deg)}
+    to{transform:translateY(-130vh) rotate(20deg)}
+  }
+
+  /* ======= КОНТЕНТ ======= */
+  .wrap{
+    position:relative; z-index:2;
+    max-width:680px; margin:0 auto;
+    padding:64px 20px 120px;
+    text-align:center;
+  }
+  .seal{
+    font-size:64px; line-height:1;
+    display:inline-block;
+    animation:pulse 3s ease-in-out infinite;
+    filter:drop-shadow(0 0 18px rgba(193,18,31,.9));
+  }
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+
+  h1{
+    font-family:'Rubik Wet Paint','Russo One',cursive;
+    font-size:clamp(48px, 11vw, 88px);
+    color:var(--blood);
+    text-shadow:0 0 30px rgba(193,18,31,.7), 0 4px 0 #2b0006;
+    letter-spacing:.02em;
+    margin:8px 0 4px;
+  }
+  .tagline{
+    font-family:'Russo One',sans-serif;
+    text-transform:uppercase;
+    letter-spacing:.35em;
+    font-size:13px;
+    color:var(--gold);
+    margin-bottom:10px;
+  }
+  .sub{
+    color:rgba(232,220,200,.65);
+    font-size:15px;
+    max-width:440px; margin:0 auto 40px;
+  }
+
+  .summon{
+    font-family:'Russo One',sans-serif;
+    font-size:22px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    color:var(--bone);
+    background:linear-gradient(180deg, var(--blood), var(--blood-dark));
+    border:2px solid rgba(255,255,255,.15);
+    border-radius:14px;
+    padding:20px 44px;
+    box-shadow:0 0 40px rgba(193,18,31,.5), inset 0 2px 0 rgba(255,255,255,.2);
+    transition:transform .15s, box-shadow .15s;
+  }
+  .summon:hover{
+    transform:translateY(-3px) scale(1.03) rotate(-1deg);
+    box-shadow:0 0 70px rgba(193,18,31,.9), inset 0 2px 0 rgba(255,255,255,.25);
+  }
+  .summon:active{transform:scale(.96)}
+
+  /* ======= КНИГА ПРОКЛЯТИЙ ======= */
+  .book{margin-top:72px; text-align:left}
+  .book h2{
+    font-family:'Russo One',sans-serif;
+    font-size:18px; text-transform:uppercase; letter-spacing:.25em;
+    color:var(--gold); text-align:center; margin-bottom:6px;
+  }
+  .book .counter{
+    text-align:center; font-size:13px; color:rgba(232,220,200,.5); margin-bottom:24px;
+  }
+  .empty{
+    text-align:center; color:rgba(232,220,200,.35);
+    font-style:italic; padding:30px 0;
+    border:1px dashed rgba(232,220,200,.15); border-radius:14px;
+  }
+  .curse-card{
+    background:rgba(20,5,10,.75);
+    border:1px solid rgba(193,18,31,.4);
+    border-left:5px solid var(--blood);
+    border-radius:12px;
+    padding:18px 20px;
+    margin-bottom:14px;
+    backdrop-filter:blur(4px);
+    animation:slam .45s cubic-bezier(.2,1.6,.4,1) both;
+    box-shadow:0 6px 24px rgba(0,0,0,.5);
+  }
+  @keyframes slam{
+    from{opacity:0; transform:translateY(-26px) scale(1.15) rotate(-2deg)}
+    to{opacity:1; transform:none}
+  }
+  .curse-card .who{
+    font-family:'Russo One',sans-serif;
+    font-size:16px; color:var(--bone); margin-bottom:6px;
+  }
+  .curse-card .who .arrow{color:var(--blood); margin:0 6px}
+  .curse-card .what{font-size:15px; color:var(--gold)}
+  .curse-card .lvl{
+    display:inline-block; margin-left:8px;
+    font-size:13px; letter-spacing:.05em; color:rgba(232,220,200,.6);
+  }
+  .curse-card .when{
+    margin-top:8px; font-size:12px; color:rgba(232,220,200,.35);
+  }
+
+  /* ======= МОДАЛКА ======= */
+  .overlay{
+    position:fixed; inset:0; z-index:10;
+    background:rgba(5,0,3,.8);
+    backdrop-filter:blur(6px);
+    display:none; align-items:center; justify-content:center;
+    padding:20px;
+  }
+  .overlay.open{display:flex; animation:fadein .25s ease both}
+  @keyframes fadein{from{opacity:0}to{opacity:1}}
+  .modal{
+    width:100%; max-width:460px;
+    background:linear-gradient(180deg, #1a060c, #0d0207);
+    border:2px solid var(--blood);
+    border-radius:20px;
+    padding:32px 28px 28px;
+    box-shadow:0 0 80px rgba(193,18,31,.6);
+    animation:summonin .35s cubic-bezier(.2,1.5,.4,1) both;
+    position:relative;
+    text-align:left;
+  }
+  @keyframes summonin{
+    from{opacity:0; transform:scale(.7) rotate(3deg)}
+    to{opacity:1; transform:none}
+  }
+  .modal h3{
+    font-family:'Rubik Wet Paint','Russo One',cursive;
+    color:var(--blood);
+    font-size:30px;
+    text-align:center;
+    margin-bottom:22px;
+    text-shadow:0 0 16px rgba(193,18,31,.6);
+  }
+  .close{
+    position:absolute; top:14px; right:16px;
+    background:none; border:none;
+    font-size:22px; color:rgba(232,220,200,.5);
+  }
+  .close:hover{color:var(--bone)}
+  .field{margin-bottom:18px}
+  label{
+    display:block;
+    font-family:'Russo One',sans-serif;
+    font-size:11px; text-transform:uppercase; letter-spacing:.2em;
+    color:var(--gold); margin-bottom:8px;
+  }
+  input[type=text], select{
+    width:100%;
+    background:rgba(0,0,0,.5);
+    border:1px solid rgba(193,18,31,.5);
+    border-radius:10px;
+    padding:13px 14px;
+    color:var(--bone);
+    font-family:'Golos Text',sans-serif;
+    font-size:15px;
+    outline:none;
+    transition:border-color .2s, box-shadow .2s;
+  }
+  input[type=text]:focus, select:focus{
+    border-color:var(--blood);
+    box-shadow:0 0 0 3px rgba(193,18,31,.25);
+  }
+  input::placeholder{color:rgba(232,220,200,.3)}
+  select{appearance:none; -webkit-appearance:none;
+    background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="9"><path d="M1 1l6 6 6-6" stroke="%23c1121f" stroke-width="2" fill="none"/></svg>');
+    background-repeat:no-repeat; background-position:right 14px center;
+  }
+  select option{background:#1a060c; color:var(--bone)}
+  .target-row{display:flex; gap:8px}
+  .target-row input{flex:1}
+  .dice{
+    flex:none;
+    background:linear-gradient(180deg,#3a0a14,#1c040a);
+    border:1px solid rgba(193,18,31,.5);
+    border-radius:10px;
+    font-size:20px;
+    width:50px;
+    transition:transform .15s;
+  }
+  .dice:hover{transform:rotate(20deg) scale(1.1); border-color:var(--blood)}
+  .hint{font-size:11px; color:rgba(232,220,200,.35); margin-top:6px}
+
+  .cast{
+    width:100%;
+    margin-top:6px;
+    font-family:'Russo One',sans-serif;
+    font-size:17px; text-transform:uppercase; letter-spacing:.08em;
+    color:var(--bone);
+    background:linear-gradient(180deg, var(--blood), var(--blood-dark));
+    border:none; border-radius:12px;
+    padding:16px;
+    box-shadow:0 0 26px rgba(193,18,31,.5), inset 0 2px 0 rgba(255,255,255,.2);
+    transition:transform .12s, box-shadow .12s;
+  }
+  .cast:hover{transform:scale(1.02); box-shadow:0 0 50px rgba(193,18,31,.85)}
+  .cast:active{transform:scale(.97)}
+  .cast:disabled{opacity:.5; transform:none}
+
+  /* ======= ВЗРЫВ ======= */
+  .blast{position:fixed; inset:0; z-index:50; pointer-events:none; overflow:hidden}
+  .particle{
+    position:absolute; top:-10vh;
+    will-change:transform;
+    animation:fall linear forwards;
+  }
+  @keyframes fall{
+    from{transform:translateY(0) rotate(0deg)}
+    to{transform:translateY(125vh) rotate(var(--spin))}
+  }
+  .flash{
+    position:fixed; inset:0; z-index:49; pointer-events:none;
+    background:radial-gradient(circle at 50% 50%, rgba(193,18,31,.55), transparent 70%);
+    opacity:0;
+  }
+  .flash.go{animation:flashanim .6s ease-out}
+  @keyframes flashanim{0%{opacity:0}15%{opacity:1}100%{opacity:0}}
+  body.shake{animation:shake .5s}
+  @keyframes shake{
+    0%,100%{transform:translate(0)}
+    20%{transform:translate(-8px,4px) rotate(-.6deg)}
+    40%{transform:translate(7px,-5px) rotate(.5deg)}
+    60%{transform:translate(-5px,3px) rotate(-.4deg)}
+    80%{transform:translate(4px,-2px) rotate(.3deg)}
+  }
+
+  footer{
+    position:relative; z-index:2;
+    text-align:center; padding:0 20px 40px;
+    font-size:12px; color:rgba(232,220,200,.3);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .bg, .bg::after, .floater, .seal{animation:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="floaters" id="floaters"></div>
+
+<main class="wrap">
+  <span class="seal">🕯️</span>
+  <p class="tagline">ритуальный сервис №1</p>
+  <h1>ПРОКЛИНАТОР</h1>
+  <p class="sub">Кто-то опять всё испортил? Не держи в себе. Наложи официальное сертифицированное проклятье — быстро, анонимно, с конфетти.</p>
+
+  <button class="summon" id="openBtn">🔪 Наслать проклятье</button>
+
+  <section class="book">
+    <h2>📜 Книга проклятий</h2>
+    <p class="counter" id="counter">Душ проклято: 0</p>
+    <div id="list">
+      <p class="empty">Пока никто не проклят. Подозрительно тихо…</p>
+    </div>
+  </section>
+</main>
+
+<footer>ПРОКЛИНАТОР™ — все проклятья шуточные. Понос не гарантирован, но вселенная всё слышит.</footer>
+
+<!-- МОДАЛКА -->
+<div class="overlay" id="overlay">
+  <div class="modal" role="dialog" aria-modal="true">
+    <button class="close" id="closeBtn" aria-label="Закрыть">✖</button>
+    <h3>Ритуал подачи</h3>
+
+    <div class="field">
+      <label for="sender">Твоё имя (тёмный отправитель)</label>
+      <input type="text" id="sender" placeholder="Например: Маша Гневная" maxlength="40">
+    </div>
+
+    <div class="field">
+      <label for="target">Кого проклинаем</label>
+      <div class="target-row">
+        <input type="text" id="target" placeholder="Имя жертвы…" maxlength="40">
+        <button class="dice" id="diceBtn" title="Случайное имя жертвы">🎲</button>
+      </div>
+      <p class="hint">Жми на кубик, если имя жертвы слишком приличное</p>
+    </div>
+
+    <div class="field">
+      <label for="curse">Тип проклятья</label>
+      <select id="curse">
+        <option value="0">💩 Понос — уровень I 🔥</option>
+        <option value="1">🕯️ Порча — уровень II 🔥🔥</option>
+        <option value="2">🍆 Нестояк — уровень III 🔥🔥🔥</option>
+        <option value="3">🪙 Безденежье — уровень IV 🔥🔥🔥🔥</option>
+        <option value="4">⚡ Божья кара — уровень V 🔥🔥🔥🔥🔥</option>
+        <option value="5">☠️ ВСЁ ПЕРЕЧИСЛЕННОЕ — уровень MAX 💀💀💀</option>
+      </select>
+    </div>
+
+    <button class="cast" id="castBtn">Проклясть навеки 🩸</button>
+  </div>
+</div>
+
+<div class="flash" id="flash"></div>
+<div class="blast" id="blast"></div>
+
+<script>
+  const CURSES = [
+    {emoji:'💩', name:'Понос',        lvl:'уровень I',  fire:'🔥',          parts:['💩','🟤','🧻']},
+    {emoji:'🕯️', name:'Порча',        lvl:'уровень II', fire:'🔥🔥',        parts:['🕯️','🖤','🪞']},
+    {emoji:'🍆', name:'Нестояк',      lvl:'уровень III',fire:'🔥🔥🔥',      parts:['🍆','📉','🥀']},
+    {emoji:'🪙', name:'Безденежье',   lvl:'уровень IV', fire:'🔥🔥🔥🔥',    parts:['🪙','💸','🕳️']},
+    {emoji:'⚡', name:'Божья кара',   lvl:'уровень V',  fire:'🔥🔥🔥🔥🔥',  parts:['⚡','🌩️','😇']},
+    {emoji:'☠️', name:'ВСЁ ПЕРЕЧИСЛЕННОЕ', lvl:'уровень MAX', fire:'💀💀💀', parts:['💩','🍆','🪙','⚡','☠️','🕯️']},
+  ];
+
+  const RANDOM_TARGETS = [
+    'тварь ебаная','гнида бесстыжая','чмо болотное','упырь конченый',
+    'мудила огородный','крыса канцелярская','пельмень недоваренный',
+    'козлина вонючая','выхухоль проклятая','жаба завистливая',
+    'хмырь подзаборный','дятел настойчивый','бес попутавший',
+    'сосед со шруповёртом','бывший (тот самый)','начальник-кровопийца'
+  ];
+
+  const VERDICTS = [
+    'Проклятье принято в обработку преисподней.',
+    'Вселенная кивнула. Жертве не повезло.',
+    'Тёмные силы расписались в получении.',
+    'Доставлено. Курьер — чёрный кот.',
+    'Ритуал засчитан. Можешь выдохнуть.',
+    'Печать поставлена. Возврату не подлежит.'
+  ];
+
+  const overlay = document.getElementById('overlay');
+  const openBtn = document.getElementById('openBtn');
+  const closeBtn = document.getElementById('closeBtn');
+  const diceBtn = document.getElementById('diceBtn');
+  const castBtn = document.getElementById('castBtn');
+  const senderEl = document.getElementById('sender');
+  const targetEl = document.getElementById('target');
+  const curseEl = document.getElementById('curse');
+  const list = document.getElementById('list');
+  const counter = document.getElementById('counter');
+  const blast = document.getElementById('blast');
+  const flash = document.getElementById('flash');
+
+  let cursed = 0;
+
+  // ---- плавающие черепа на фоне ----
+  const FLOAT_EMOJI = ['☠️','🕯️','🦇','🪦','👁️','🐍'];
+  const floaters = document.getElementById('floaters');
+  for(let i=0;i<10;i++){
+    const f = document.createElement('span');
+    f.className = 'floater';
+    f.textContent = FLOAT_EMOJI[i % FLOAT_EMOJI.length];
+    f.style.left = (Math.random()*95)+'vw';
+    f.style.fontSize = (24+Math.random()*30)+'px';
+    f.style.animationDuration = (18+Math.random()*20)+'s';
+    f.style.animationDelay = (-Math.random()*30)+'s';
+    floaters.appendChild(f);
+  }
+
+  // ---- модалка ----
+  openBtn.onclick = ()=>{ overlay.classList.add('open'); senderEl.focus(); };
+  closeBtn.onclick = ()=> overlay.classList.remove('open');
+  overlay.onclick = (e)=>{ if(e.target===overlay) overlay.classList.remove('open'); };
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape') overlay.classList.remove('open'); });
+
+  // ---- рандомайзер жертвы ----
+  diceBtn.onclick = ()=>{
+    let pick;
+    do { pick = RANDOM_TARGETS[Math.floor(Math.random()*RANDOM_TARGETS.length)]; }
+    while (pick === targetEl.value);
+    targetEl.value = pick;
+    targetEl.style.color = '#d4a017';
+    setTimeout(()=> targetEl.style.color = '', 400);
+  };
+
+  // ---- ВЗРЫВ ----
+  function explode(curse){
+    flash.classList.remove('go'); void flash.offsetWidth; flash.classList.add('go');
+    document.body.classList.remove('shake'); void document.body.offsetWidth; document.body.classList.add('shake');
+
+    const palette = ['#c1121f','#d4a017','#7a9a2e','#e8dcc8','#ff6b35','#9b1d64'];
+    const emojis = ['🩸','💩','🎉','✨','💥', ...curse.parts];
+    const N = 90;
+    for(let i=0;i<N;i++){
+      const p = document.createElement('span');
+      p.className = 'particle';
+      const isEmoji = Math.random() > .35;
+      if(isEmoji){
+        p.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+        p.style.fontSize = (16+Math.random()*30)+'px';
+      } else {
+        p.style.width = p.style.height = (6+Math.random()*10)+'px';
+        p.style.background = palette[Math.floor(Math.random()*palette.length)];
+        p.style.borderRadius = Math.random()>.5 ? '50%' : '2px';
+      }
+      p.style.left = (Math.random()*100)+'vw';
+      p.style.setProperty('--spin', (Math.random()*1080-540)+'deg');
+      p.style.animationDuration = (1.4+Math.random()*1.8)+'s';
+      p.style.animationDelay = (Math.random()*.4)+'s';
+      blast.appendChild(p);
+      setTimeout(()=> p.remove(), 4000);
+    }
+  }
+
+  // ---- сабмит ----
+  castBtn.onclick = ()=>{
+    const sender = senderEl.value.trim() || 'Аноним в капюшоне';
+    const target = targetEl.value.trim();
+    if(!target){
+      targetEl.style.borderColor = '#ff2e2e';
+      targetEl.placeholder = 'Без жертвы ритуал не работает!';
+      targetEl.focus();
+      setTimeout(()=> targetEl.style.borderColor = '', 1200);
+      return;
+    }
+    const curse = CURSES[+curseEl.value];
+
+    overlay.classList.remove('open');
+    explode(curse);
+
+    cursed++;
+    counter.textContent = 'Душ проклято: ' + cursed;
+
+    const empty = list.querySelector('.empty');
+    if(empty) empty.remove();
+
+    const card = document.createElement('div');
+    card.className = 'curse-card';
+    const time = new Date().toLocaleTimeString('ru-RU', {hour:'2-digit', minute:'2-digit'});
+    const verdict = VERDICTS[Math.floor(Math.random()*VERDICTS.length)];
+    card.innerHTML =
+      '<div class="who">' + esc(sender) + ' <span class="arrow">⟶ 🔪 ⟶</span> ' + esc(target) + '</div>' +
+      '<div class="what">' + curse.emoji + ' ' + curse.name +
+      ' <span class="lvl">' + curse.lvl + ' ' + curse.fire + '</span></div>' +
+      '<div class="when">' + time + ' · ' + verdict + '</div>';
+    list.prepend(card);
+
+    targetEl.value = '';
+  };
+
+  function esc(s){
+    return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+</script>
+</body>
+</html>
